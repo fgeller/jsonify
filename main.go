@@ -30,7 +30,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	var data map[string]string = map[string]string{}
+	var data map[string]interface{} = map[string]interface{}{}
 	for idx := 1; idx < len(os.Args); idx += 2 {
 		name := os.Args[idx][1:]
 		value := os.Args[idx+1]
@@ -44,7 +44,13 @@ func main() {
 			value = string(bs)
 		}
 
-		data[name] = value
+		if os.Args[idx][0:1] == "=" {
+			var o interface{}
+			err = json.Unmarshal([]byte(value), &o)
+			data[name] = o
+		} else {
+			data[name] = value
+		}
 	}
 
 	bs, err := json.Marshal(data)
