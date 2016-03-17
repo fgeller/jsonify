@@ -9,11 +9,54 @@ import (
 
 func printUsage() {
 	fmt.Fprintf(os.Stderr, `
-jsonify [-name value]...
+Usage:
 
-Example:
+    jsonify [[-|=]name value]...
 
-    jsonify -date "$(date)" -contents main.go
+    Converts arguments into JSON output.
+
+Details:
+
+    -name causes the value to be interpreted as a string.
+    =name causes the value to be interpreted as a JSON value.
+
+    If the value is a valid file path, it's contents are used as the value.
+
+Examples:
+
+    $ jsonify -first_name hans -last_name schmitt | jq
+    {
+      "first_name": "hans",
+      "last_name": "schmitt"
+    }
+
+    $ jsonify =a `+"`"+`jsonify -name hans`+"`"+` =b `+"`"+`jsonify -name peter`+"`"+` | tee out | jq
+    {
+      "a": {
+        "name": "hans"
+      },
+      "b": {
+        "name": "peter"
+      }
+    }
+
+    $ jsonify -date "$(date)" =content out | jq
+    {
+      "content": {
+        "a": {
+          "name": "hans"
+        },
+        "b": {
+          "name": "peter"
+        }
+      },
+      "date": "Thu Mar 17 19:10:04 NZDT 2016"
+    }
+
+More info:
+
+    https://github.com/fgeller/jsonify
+
 `)
 }
 
