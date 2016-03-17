@@ -2,9 +2,14 @@
 
 Some reasons why you might be interested:
 
-* Produces JSON output based on command line arguments
+* Quickly produce JSON output based on command line arguments
 * Simple syntax to interpret values as strings or arbitrary JSON values
 * Supports reading file contents for easy escaping
+
+## Installation
+
+* Downloads are available from the [Releases](https://github.com/fgeller/jsonify) section.
+* `go get github.com/fgeller/jsonify && go install github.com/fgeller/jsonify`
 
 ## Usage
 
