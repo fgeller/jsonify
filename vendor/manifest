@@ -1,0 +1,29 @@
+{
+	"version": 0,
+	"dependencies": [
+		{
+			"importpath": "github.com/xeipuuv/gojsonpointer",
+			"repository": "https://github.com/xeipuuv/gojsonpointer",
+			"vcs": "git",
+			"revision": "e0fe6f68307607d540ed8eac07a342c33fa1b54a",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/xeipuuv/gojsonreference",
+			"repository": "https://github.com/xeipuuv/gojsonreference",
+			"vcs": "git",
+			"revision": "e02fc20de94c78484cd5ffb007f8af96be030a45",
+			"branch": "master",
+			"notests": true
+		},
+		{
+			"importpath": "github.com/xeipuuv/gojsonschema",
+			"repository": "https://github.com/xeipuuv/gojsonschema",
+			"vcs": "git",
+			"revision": "00f9fafb54d2244d291b86ab63d12c38bd5c3886",
+			"branch": "master",
+			"notests": true
+		}
+	]
+}
