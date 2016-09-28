@@ -2,9 +2,14 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"fmt"
+	"github.com/pkg/errors"
+	"github.com/xeipuuv/gojsonschema"
 	"io/ioutil"
+	"log"
 	"os"
+	"strings"
 )
 
 func printUsage() {
@@ -14,6 +19,10 @@ Usage:
     jsonify [[-|=]name value]...
 
     Converts arguments into JSON output.
+
+    jsonify -validate data.json -schema data_schema.json
+
+    Validates contents of the file data.json agains json schema in data_schema.json
 
 Details:
 
@@ -60,11 +69,57 @@ More info:
 `)
 }
 
+func validate(schema string, json string) error {
+	schemaLoader := gojsonschema.NewStringLoader(schema)
+	documentLoader := gojsonschema.NewStringLoader(json)
+	result, err := gojsonschema.Validate(schemaLoader, documentLoader)
+	if err != nil {
+		panic(err.Error())
+	}
+	if result.Valid() {
+		return nil
+	} else {
+		descs := make([]string, len(result.Errors()))
+		for _, desc := range result.Errors() {
+			descs = append(descs, desc.Description())
+		}
+		return errors.New(strings.Join(descs, "\n"))
+	}
+}
+
+func runValidate() error {
+	schemaArg := flag.String("schema", "", "file with json schema")
+	validateArg := flag.String("validate", "", "file with json for validation")
+	flag.Parse()
+
+	schemaFile := *schemaArg
+	jsonFile := *validateArg
+
+	jsonText, err := ioutil.ReadFile(jsonFile)
+	if err != nil {
+		return fmt.Errorf("Could not read file [%s]: %v", jsonFile, err)
+	}
+	schema, err := ioutil.ReadFile(schemaFile)
+	if err != nil {
+		return fmt.Errorf("Could not read file [%s]: %v", schemaFile, err)
+	}
+
+	return validate(string(schema), string(jsonText))
+}
+
 func main() {
 
 	if len(os.Args) == 1 {
 		printUsage()
 		os.Exit(1)
+	}
+
+	if os.Args[1] == "-validate" || os.Args[1] == "-schema" {
+		err := runValidate()
+		if err != nil {
+			log.Fatal(err)
+		}
+		return
 	}
 
 	if len(os.Args)%2 == 0 {
