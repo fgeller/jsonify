@@ -31,7 +31,7 @@ Converts arguments into JSON output.
       "last_name": "schmitt"
     }
 
-    $ jsonify =a `+"`"+`jsonify -name hans`+"`"+` =b `+"`"+`jsonify -name peter`+"`"+` | tee out | jq
+    $ jsonify =a `jsonify -name hans` =b `jsonify -name peter` | tee out | jq
     {
       "a": {
         "name": "hans"
