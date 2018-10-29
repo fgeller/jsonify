@@ -10,6 +10,7 @@ Some reasons why you might be interested:
 
 * Downloads are available from the [Releases](https://github.com/fgeller/jsonify/releases) section.
 * `go get github.com/fgeller/jsonify && go install github.com/fgeller/jsonify`
+* Via homebrew on OSX: `brew tap fgeller/tap && brew install jsonify`
 
 ## Usage
 
