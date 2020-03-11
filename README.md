@@ -26,13 +26,17 @@ Converts arguments into JSON output.
 
 ## Examples
 
-    $ jsonify -first_name hans -last_name schmitt | jq
+    $ # basic value types, ie - vs =
+    $ jsonify -name hans =age 23 =subscribed true =address null | jq
     {
-      "first_name": "hans",
-      "last_name": "schmitt"
+      "address": null,
+      "age": 23,
+      "name": "hans",
+      "subscribed": true
     }
 
-    $ jsonify =a `jsonify -name hans` =b `jsonify -name peter` | tee out | jq
+    $ # nested objects via command substitution
+    $ jsonify =a `jsonify -name hans` =b `jsonify -name peter` | tee outfile | jq
     {
       "a": {
         "name": "hans"
@@ -42,7 +46,9 @@ Converts arguments into JSON output.
       }
     }
 
-    $ jsonify -date "$(date)" =content out | jq
+    $ # subshell output as a value to get current date
+    $ # reading contents of "outfile" from previous invocation
+    $ jsonify -date "$(date)" =content outfile | jq
     {
       "content": {
         "a": {
