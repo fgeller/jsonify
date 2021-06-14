@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"os"
 )
 
@@ -79,7 +78,7 @@ func main() {
 		value := os.Args[idx+1]
 		_, err := os.Stat(value)
 		if !os.IsNotExist(err) {
-			bs, err := ioutil.ReadFile(value)
+			bs, err := os.ReadFile(value)
 			if err != nil {
 				fmt.Fprintf(os.Stderr, "Could not read contents of file %s. err=%s", value, err)
 				os.Exit(1)
